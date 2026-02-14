@@ -1,6 +1,10 @@
 # PhotoSplat3D
 
 <p align="center">
+    <img src="./images/app_logo.jpg" alt="app_icon" width="150" />
+</p>
+
+<p align="center">
   <strong>照片秒变 3D — 完全本地，无需联网</strong>
 </p>
 
@@ -13,7 +17,17 @@
 
 ---
 
-基于 Apple [ml-sharp](https://apple.github.io/ml-sharp/) 开源项目的开箱即用版本(带 GUI)，支持单图快速生成 3D Gaussian Splatting（3DGS）高斯泼溅模型。
+基于 Apple [ml-sharp](https://apple.github.io/ml-sharp/) 开源项目的开箱即用版本(带 GUI)，支持单张图片 快速生成 3D Gaussian Splatting（3DGS）高斯泼溅模型。
+
+官方网站: <https://www.photosplat3d.com/>
+
+<p align="center">
+    <img src="./images/mac_cn_1.jpeg" alt="app_icon" width="520" />
+</p>
+
+<p align="center">
+    <img src="./images/mac_cn_2.jpeg" alt="app_icon" width="520" />
+</p>
 
 ## 下载
 

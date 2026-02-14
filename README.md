@@ -1,6 +1,10 @@
 # PhotoSplat 3D
 
 <p align="center">
+    <img src="./images/app_logo.jpg" alt="app_icon" width="150" />
+</p>
+
+<p align="center">
   <strong>Turn photos into 3D Gaussian Splat models — instantly and privately on-device</strong>
 </p>
 
@@ -14,6 +18,16 @@
 ---
 
 A desktop-friendly fork of Apple's [ml-sharp](https://apple.github.io/ml-sharp/) project for single-image 3D Gaussian Splatting (3DGS) reconstruction.
+
+Official Website: <https://www.photosplat3d.com/>
+
+<p align="center">
+    <img src="./images/mac_en_1.jpeg" alt="app_icon" width="520" />
+</p>
+
+<p align="center">
+    <img src="./images/mac_en_2.jpeg" alt="app_icon" width="520" />
+</p>
 
 ## Downloads
 
