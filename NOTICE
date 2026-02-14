@@ -1,0 +1,13 @@
+PhotoSplat3D / 图生高斯3D
+
+This repository is based on Apple's ml-sharp research project.
+
+- Multi-license repository:
+  - Original contributions in this fork: `LICENSE` (MIT, scoped)
+  - Apple-derived/source files: `LICENSE_UPSTREAM_APPLE`
+  - Model weights/checkpoints and model derivatives: `LICENSE_MODEL`
+  - Third-party attributions: `ACKNOWLEDGEMENTS`
+- Apple copyright/license headers are intentionally preserved in source files
+  and must be retained in redistributions where applicable.
+
+When redistributing, make sure you comply with all applicable files above.
