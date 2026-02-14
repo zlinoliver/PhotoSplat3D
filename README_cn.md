@@ -45,7 +45,7 @@
 
 **系统要求：** 搭载 Apple Silicon (M2 或更高) 的 macOS
 
-### 📱 Vision Pro 应用
+### ᯅ Vision Pro 应用
 **[App Store 下载](https://apps.apple.com/us/app/%E5%9B%BE%E7%94%9F%E9%AB%98%E6%96%AF-3d/id6757570552?l=zh-Hans-CN)**
 
 直接在 Apple Vision Pro 上创建和探索 3D 高斯泼溅模型。

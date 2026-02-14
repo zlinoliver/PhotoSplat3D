@@ -1,4 +1,4 @@
-# PhotoSplat 3D
+# PhotoSplat3D
 
 <p align="center">
     <img src="./images/app_logo.jpg" alt="app_icon" width="150" />
@@ -45,7 +45,7 @@ Convert 2D photos to 3D Gaussian Splat models with one click.
 
 **Requirements:** macOS with Apple Silicon (M2 or later)
 
-### 📱 Vision Pro App
+### ᯅ Vision Pro App
 **[Download on App Store](https://apps.apple.com/us/app/photosplat-3d/id6757570552)**
 
 Create and explore 3D Gaussian Splats directly on Apple Vision Pro.
