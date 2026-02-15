@@ -1,4 +1,4 @@
-"""Simple localization helper for SHARP GUI."""
+"""Simple localization helper for PhotoSplat3D GUI."""
 
 from __future__ import annotations
 

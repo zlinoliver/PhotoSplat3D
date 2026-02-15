@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Standalone launcher for SHARP GUI app.
+"""Standalone launcher for PhotoSplat3D GUI app.
 
 This is used as the entry point when building standalone applications.
 
@@ -17,14 +17,14 @@ logging.basicConfig(
 )
 
 def main():
-    """Launch the SHARP GUI application."""
+    """Launch the PhotoSplat3D GUI application."""
     try:
         from sharp.gui.main_window import SharpGUI
 
         app = SharpGUI()
         app.mainloop()
     except Exception as e:
-        logging.error(f"Failed to start SHARP GUI: {e}", exc_info=True)
+        logging.error(f"Failed to start PhotoSplat3D GUI: {e}", exc_info=True)
         sys.exit(1)
 
 if __name__ == '__main__':

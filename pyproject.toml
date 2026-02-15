@@ -1,12 +1,11 @@
 [project]
 name = "sharp"
 version = "1.0"
-description = "SHARP - 3D Gaussian Splatting view synthesis with GUI"
+description = "PhotoSplat3D - 3D Gaussian Splatting view synthesis with GUI"
 readme = "README.md"
 dependencies = [
   "click",
   "customtkinter",
-  "pywebview",
   "gsplat",
   "imageio[ffmpeg]",
   "matplotlib",

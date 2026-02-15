@@ -115,15 +115,15 @@ def ensure_virtualenv():
 
     if not venv_python.exists():
         print_warning(
-            "未检测到项目内置虚拟环境 (venv)。请按照 README_BUILD.md 中的说明创建并安装依赖。"
+            "Project virtual environment (venv) not found. Please create it and install dependencies as described in README_BUILD.md."
         )
         return
 
     print_step("Switching to project virtual environment")
     print_warning(
-        "检测到正在使用系统 Python 运行构建脚本，这会导致依赖缺失的 .app。"
+        "Detected system Python is being used to run the build script, which can produce an .app with missing dependencies."
     )
-    print(f"使用虚拟环境重新执行: {venv_python}")
+    print(f"Re-running with virtual environment: {venv_python}")
 
     env = os.environ.copy()
     env['SHARP_BUILD_IN_VENV'] = '1'
@@ -144,16 +144,16 @@ def check_dependencies():
             missing_modules.append(module)
 
     if missing_modules:
-        print_error("当前 Python 解释器缺少以下运行时依赖：")
+        print_error("The current Python interpreter is missing the following runtime dependencies:")
         for module in missing_modules:
             print(f"  - {module}")
-        print("\n请先执行以下命令安装依赖，然后再次运行 build_release.py：")
+        print("\nPlease run the following commands to install dependencies, then run build_release.py again:")
         print("  source venv/bin/activate")
         print("  pip install -r requirements.txt")
-        print("\n详细步骤请参考 README_BUILD.md / QUICK_START.md。")
+        print("\nFor detailed steps, see README_BUILD.md / QUICK_START.md.")
         sys.exit(1)
     else:
-        print_success("所有运行时依赖均已安装")
+        print_success("All runtime dependencies are installed")
 
     try:
         import PyInstaller
@@ -310,12 +310,6 @@ def build_app(version, model_path, skip_model=False):
         '--specpath=build',
     ]
 
-    viewer_dir = Path('viewer').absolute()
-    if viewer_dir.exists():
-        options.append(f'--add-data={viewer_dir}:viewer')
-    else:
-        print_warning("viewer assets directory not found; Spark preview will be unavailable.")
-
     # Add model file if not skipping
     if not skip_model and model_path:
         model_dest = 'checkpoints'
@@ -455,7 +449,7 @@ def create_dmg_package(app_path, version, build_mode='full'):
 
     hdiutil = shutil.which("hdiutil")
     if not hdiutil:
-        print_warning("hdiutil 未找到，跳过 DMG 打包。")
+        print_warning("hdiutil not found, skipping DMG packaging.")
         return None
 
     try:
@@ -475,7 +469,7 @@ def create_dmg_package(app_path, version, build_mode='full'):
             check=True
         )
     except subprocess.CalledProcessError as exc:
-        print_error(f"hdiutil create 失败：{exc}")
+        print_error(f"hdiutil create failed: {exc}")
         return None
 
     size_gb = dmg_path.stat().st_size / (1024 ** 3)
@@ -491,63 +485,63 @@ def create_release_notes(version, primary_package, build_mode='full'):
     size_gb = primary_package.stat().st_size / (1024 ** 3)
 
     if build_mode == 'lite':
-        package_desc = "更新包（不含模型）"
-        install_steps = f"""1. 确保你的电脑已经安装过带模型的 PhotoSplat 3D 全量版本。
-2. 下载 `{primary_package.name}`
-3. 双击挂载后退出正在运行的 PhotoSplat 3D
-4. 将 DMG 内的 `PhotoSplat3D.app` 拖入你的安装目录（如 `/Applications`），覆盖旧版本
-5. 覆盖完成即可重新启动应用"""
-        requirements = """- 必须已经存在 `~/Library/Application Support/PhotoSplat3D/checkpoints/` 缓存
-- 覆盖操作需要对目标目录有写权限
-- 覆盖前务必退出旧版本"""
-        highlights = """- 仅包含代码/UI 更新，无需重新下载 2.7 GB 模型
-- 适用于离线分发的小体积增量更新"""
+        package_desc = "Update package (without model)"
+        install_steps = f"""1. Make sure the full PhotoSplat 3D version with model has already been installed on your Mac.
+2. Download `{primary_package.name}`
+3. After mounting, quit any running PhotoSplat 3D process
+4. Drag `PhotoSplat3D.app` from the DMG to your install location (for example, `/Applications`) and replace the old version
+5. Relaunch the app after replacement completes"""
+        requirements = """- `~/Library/Application Support/PhotoSplat3D/checkpoints/` cache must already exist
+- Write permission is required for the target directory
+- Make sure the old version is fully closed before replacing"""
+        highlights = """- Includes code/UI updates only, no need to re-download the 2.7 GB model
+- Small incremental update package suitable for offline distribution"""
     else:
-        package_desc = "完整安装包（含模型）"
-        install_steps = f"""1. 下载 `{primary_package.name}`
-2. 双击挂载后，将 `PhotoSplat3D.app` 拖到「应用程序」或任意文件夹
-3. **首次打开**：右键 `PhotoSplat3D.app` → 选择“打开” → 二次确认
-4. 之后即可通过双击正常启动
-5. 若仍被 macOS 安全设置阻止：
-   - 打开「系统设置 → 隐私与安全性」
-   - 在安全提示中点击“仍要打开”或“允许”
-   - 不建议使用 `sudo spctl --master-disable`，若临时关闭 Gatekeeper，请记得 `sudo spctl --master-enable` 恢复"""
-        requirements = """- macOS 11.0 Big Sur 及以上
-- Apple Silicon (M 系列) 优先，16 GB 内存体验更佳
-- 至少 4 GB 可用磁盘空间
-- 首次运行会自动将模型复制到 `~/Library/Application Support/PhotoSplat3D/checkpoints/`"""
-        highlights = """- 图形界面：导入图片、查看队列、实时进度与日志
-- 支持 PNG/JPG/JPEG/HEIC 等常见图片格式
-- 自动缓存 3D Gaussian 模型，无需额外配置
-- 多语言界面：中英文随时切换"""
+        package_desc = "Full installer (includes model)"
+        install_steps = f"""1. Download `{primary_package.name}`
+2. Mount it, then drag `PhotoSplat3D.app` to Applications or any folder you prefer
+3. **First launch**: right-click `PhotoSplat3D.app` -> choose "Open" -> confirm once more
+4. After that, you can launch normally by double-clicking
+5. If macOS security still blocks it:
+   - Open System Settings -> Privacy & Security
+   - In the security prompt, click "Open Anyway" or "Allow"
+   - `sudo spctl --master-disable` is not recommended; if you disable Gatekeeper temporarily, remember to restore it with `sudo spctl --master-enable`"""
+        requirements = """- macOS 11.0 Big Sur or later
+- Apple Silicon (M-series) is recommended; 16 GB RAM provides a better experience
+- At least 4 GB of free disk space
+- On first launch, the model is automatically copied to `~/Library/Application Support/PhotoSplat3D/checkpoints/`"""
+        highlights = """- GUI workflow: import images, view queue, monitor real-time progress and logs
+- Supports common formats such as PNG/JPG/JPEG/HEIC
+- Automatically caches the 3D Gaussian model with no extra configuration
+- Multi-language UI: switch between Chinese and English anytime"""
 
-    notes = f"""# 图生高斯 3D v{version} - macOS 发布说明
+    notes = f"""# Photo-to-Gaussian 3D v{version} - macOS Release Notes
 
-**发布日期**：{datetime.now().strftime('%Y-%m-%d')}
-**安装包**：{primary_package.name}
-**类型**：{package_desc}
-**大小**：≈{size_gb:.2f} GB
+**Release Date**: {datetime.now().strftime('%Y-%m-%d')}
+**Package**: {primary_package.name}
+**Type**: {package_desc}
+**Size**: ≈{size_gb:.2f} GB
 
-## 安装步骤
+## Installation Steps
 
 {install_steps}
 
-## 运行要求
+## System Requirements
 
 {requirements}
 
-## 本次亮点
+## Highlights
 
 {highlights}
 
-更多细节请参考仓库中的 [CHANGELOG.md](../CHANGELOG.md)。
+For more details, see [CHANGELOG.md](../CHANGELOG.md) in this repository.
 
-## 获取帮助
+## Help
 
-如有问题，请查看：
-- README.md（快速上手、CLI/GUI 指南）
-- CHANGELOG.md（版本变更）
-如仍有问题，请提交 Issue。欢迎反馈体验！
+If you run into issues, please check:
+- README.md (quick start, CLI/GUI guide)
+- CHANGELOG.md (version history)
+If the issue persists, please open an issue. Feedback is welcome.
 
 ---
 """
@@ -680,7 +674,7 @@ def main():
     parser = argparse.ArgumentParser(description='Build SHARP release package')
     parser.add_argument('--version', help='Version number (e.g., 1.0.1)')
     parser.add_argument('--mode', choices=['full', 'lite'], default='full',
-                        help='full=包含模型的完整包；lite=不含模型的增量/更新包')
+                        help='full=full package with model; lite=incremental/update package without model')
     parser.add_argument('--skip-model', action='store_true',
                        help='Skip bundling model (smaller app, downloads on first run)')
     args = parser.parse_args()

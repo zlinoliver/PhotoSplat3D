@@ -217,7 +217,6 @@ ml-sharp/
 │   ├── gui/          # Desktop GUI application
 │   ├── models/       # SHARP model definitions
 │   └── utils/        # I/O, camera, Gaussian, rendering utilities
-├── viewer/           # Web viewer static assets
 ├── scripts/          # Setup and build scripts
 └── requirements.txt  # Python dependencies
 ```

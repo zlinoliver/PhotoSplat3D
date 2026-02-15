@@ -216,7 +216,6 @@ ml-sharp/
 │   ├── gui/          # 桌面图形界面
 │   ├── models/       # SHARP 模型定义
 │   └── utils/        # I/O、相机、高斯、渲染工具
-├── viewer/           # Web 查看器静态资源
 ├── scripts/          # 安装和构建脚本
 └── requirements.txt  # Python 依赖
 ```

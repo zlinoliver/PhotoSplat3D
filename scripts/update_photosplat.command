@@ -12,16 +12,16 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 NEW_APP="$SCRIPT_DIR/PhotoSplat3D.app"
 
 info() {
-  printf "[更新器] %s\n" "$1"
+  printf "[Updater] %s\n" "$1"
 }
 
 error_exit() {
-  printf "[更新器] %s\n" "$1" >&2
+  printf "[Updater] %s\n" "$1" >&2
   exit 1
 }
 
 if [ ! -d "$NEW_APP" ]; then
-  error_exit "未找到新的 PhotoSplat3D.app，无法继续（路径：$NEW_APP）"
+  error_exit "New PhotoSplat3D.app not found, cannot continue (path: $NEW_APP)"
 fi
 
 TARGET_PATH="$DEFAULT_TARGET"
@@ -42,9 +42,9 @@ PY
   fi
 fi
 
-printf "\n检测到可能的安装位置：\n  %s\n" "$TARGET_PATH"
-printf "若需要自定义路径，请输入绝对路径（可拖拽 PhotoSplat3D.app 到此窗口），直接回车则使用上面的路径。\n"
-read -r -p "安装路径: " USER_PATH
+printf "\nDetected possible install location:\n  %s\n" "$TARGET_PATH"
+printf "If you need a custom path, enter an absolute path (you can drag PhotoSplat3D.app into this window). Press Enter to use the path above.\n"
+read -r -p "Install path: " USER_PATH
 if [ -n "${USER_PATH:-}" ]; then
   TARGET_PATH="$USER_PATH"
 fi
@@ -58,15 +58,15 @@ esac
 TARGET_PARENT="$(dirname "$TARGET_PATH")"
 mkdir -p "$APP_SUPPORT"
 
-info "目标应用位置：$TARGET_PATH"
+info "Target app location: $TARGET_PATH"
 if [ -d "$TARGET_PATH" ]; then
   mkdir -p "$BACKUP_DIR"
   BACKUP_PATH="$BACKUP_DIR/PhotoSplat3D-backup.app"
-  info "正在备份现有版本到 $BACKUP_PATH （仅保留这一份）"
+  info "Backing up current version to $BACKUP_PATH (only one backup is kept)"
   rm -rf "$BACKUP_PATH"
   /usr/bin/ditto "$TARGET_PATH" "$BACKUP_PATH"
 else
-  info "未检测到现有版本，将视为新安装（无需备份）"
+  info "No existing version detected; treating this as a fresh install (no backup needed)"
 fi
 
 copy_app() {
@@ -74,16 +74,16 @@ copy_app() {
   /usr/bin/ditto "$NEW_APP" "$TARGET_PATH"
 }
 
-info "正在覆盖为最新版本..."
+info "Replacing with the latest version..."
 if [ -w "$TARGET_PARENT" ]; then
   copy_app
 else
-  info "需要管理员权限写入 $TARGET_PARENT，可能会弹出密码提示"
+  info "Administrator permission is required to write to $TARGET_PARENT; a password prompt may appear"
   sudo rm -rf "$TARGET_PATH"
   sudo /usr/bin/ditto "$NEW_APP" "$TARGET_PATH"
 fi
 
-info "更新完成！现在可以直接从原来位置启动 ${APP_NAME}。"
+info "Update complete! You can now launch ${APP_NAME} from its original location."
 if [ -n "${BACKUP_PATH:-}" ]; then
-  printf "如需回滚，可从以下备份恢复：\n%s\n" "$BACKUP_PATH"
+  printf "To roll back, restore from this backup:\n%s\n" "$BACKUP_PATH"
 fi
