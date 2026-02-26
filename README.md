@@ -17,7 +17,7 @@
 
 ---
 
-A desktop-friendly fork of Apple's [ml-sharp](https://apple.github.io/ml-sharp/) project for single-image 3D Gaussian Splatting (3DGS) reconstruction.
+A desktop-friendly fork of [ml-sharp](https://apple.github.io/ml-sharp/) project for single-image 3D Gaussian Splatting (3DGS) reconstruction.
 
 Official Website: <https://www.photosplat3d.com/>
 
